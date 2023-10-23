@@ -1,0 +1,1 @@
+export {VKIcon} from './VKIcon';

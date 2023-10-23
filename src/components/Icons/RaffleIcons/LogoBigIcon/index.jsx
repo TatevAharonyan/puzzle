@@ -1,0 +1,1 @@
+export {LogoBigIcon} from './LogoBigIcon';

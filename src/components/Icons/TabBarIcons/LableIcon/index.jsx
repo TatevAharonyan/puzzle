@@ -1,0 +1,1 @@
+export {LableIcon} from './LableIcon';
