@@ -1,25 +1,34 @@
 import React from 'react';
 
-import {SafeAreaView, ScrollView, View, StatusBar} from 'react-native';
+import {SafeAreaView, ScrollView, View, StatusBar, Image} from 'react-native';
 
 import {useStyles} from './useStyles';
 import {useData} from './useData';
-import {Text, ArrowIcon, LogoBigIcon} from '@/components';
-import {pallete} from '@/themes';
+import {
+  Text,
+  ArrowIcon,
+  LogoBigIcon,
+  WorkingHoursCard,
+  Button,
+} from '@/components';
+import {pallete, fonts} from '@/themes';
+import {DAY_OF_WEEK} from '@/constant';
 
-export const ProfileScreen = ({navigation}) => {
+export const ProfileScreen = ({onChangeScreen}) => {
   const {styles} = useStyles();
 
-  const {} = useData();
-  const user = {name: 'Name'};
+  const {userInfo, dateOfBirth, onLogOut, correctData} = useData({
+    onChangeScreen,
+  });
 
-  return (
-    <SafeAreaView style={styles.wrapper}>
-      <StatusBar
-        hidden={false}
-        backgroundColor={pallete.background.mangosteen}
-      />
-      <ScrollView showsVerticalScrollIndicator={false}>
+  if (!userInfo) {
+    return (
+      <SafeAreaView style={styles.wrapper}>
+        <StatusBar
+          hidden={false}
+          backgroundColor={pallete.background.mangosteen}
+        />
+
         <View style={styles.header}>
           <View style={styles.iconWrapper}>
             <ArrowIcon />
@@ -29,20 +38,115 @@ export const ProfileScreen = ({navigation}) => {
           </Text>
           <View style={[styles.iconWrapper, styles.wrpp]} />
         </View>
-        <View style={styles.logoWrapper}>
-          <LogoBigIcon />
-        </View>
+      </SafeAreaView>
+    );
+  }
+  return (
+    <SafeAreaView style={styles.wrapper}>
+      <StatusBar
+        hidden={false}
+        backgroundColor={pallete.background.mangosteen}
+      />
 
-        {user && (
-          <View style={styles.infoWrapper}>
-            <Text size={16} color="white" family="bold" style={{width: '40%'}}>
-              Name
-            </Text>
-            <Text size={16} color="white" style={{width: '60%'}}>
-              TestName
+      <View style={styles.header}>
+        <View style={styles.iconWrapper}>
+          <ArrowIcon />
+        </View>
+        <Text size={16} weight={700} color="white">
+          Данные пользователя
+        </Text>
+        <View style={[styles.iconWrapper, styles.wrpp]} />
+      </View>
+
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.header}>
+          <View style={styles.imagesWrapper}>
+            {userInfo?.avatar?.path && (
+              <Image
+                style={styles.img}
+                source={{
+                  uri: userInfo?.avatar?.path,
+                }}
+              />
+            )}
+            <Text size={10} color="white" margin={{top: 8}}>
+              подписчики : {userInfo?.subscribersCount}
             </Text>
           </View>
-        )}
+
+          <View style={styles.headerTitleWrapper}>
+            <View style={styles.infoWrapper}>
+              <View style={styles.infoWrapperColumn}>
+                <Text size={14} color="white" family="bold">
+                  {userInfo?.login}
+                </Text>
+
+                <Text size={13} color="white">
+                  Имя: {userInfo?.name}
+                </Text>
+                <Text size={11} color="white">
+                  Работа: {userInfo?.shortDescription}
+                </Text>
+                <Text size={11} color="white">
+                  Пол: {userInfo?.sex}
+                </Text>
+                <Text size={11} color="white">
+                  Дата рождения: {dateOfBirth}
+                </Text>
+                <Text size={11} color="white">
+                  Эл. почта: {userInfo?.email}
+                </Text>
+                <Text size={11} color="white">
+                  Web: {userInfo?.website}
+                </Text>
+                <Text size={11} color="white">
+                  Телефон: {userInfo?.phone}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View style={styles.infoWrapperColumn}>
+          <Text size={14} color="white" margin={{top: 22}}>
+            ` {userInfo?.description} `
+          </Text>
+        </View>
+        <Text size={15} color="white" margin={{top: 20}}>
+          График рабочих дней
+        </Text>
+        {userInfo?.workingHours &&
+          DAY_OF_WEEK.map(i => (
+            <WorkingHoursCard
+              week={i}
+              info={userInfo?.workingHours}
+              key={i.key}
+            />
+          ))}
+
+        <Text size={12} color={'white'} family="bold" margin={{top: 14}}>
+          Дополнительная информация:
+        </Text>
+        <Text size={11} color={'white'} margin={{top: 2}}>
+          {userInfo?.additionalInfo?.advantage}
+        </Text>
+        <Text size={10} color="white" family="bold" margin={{top: 14}}>
+          Количество просмотров:
+          <Text size={10} color={'white'} family="light">
+            {' '}
+            {userInfo?.viewsCount}
+          </Text>
+        </Text>
+        <Text size={10} color="white" family="bold" margin={{top: 14}}>
+          С нами с
+          <Text size={10} color={'white'} family="light">
+            {' '}
+            {correctData(userInfo?.createdAt)}г.
+          </Text>
+        </Text>
+
+        <Button onPress={onLogOut} color="pink" margin={{top: 20, bottom: 30}}>
+          Выйти из аккаунта
+        </Button>
       </ScrollView>
     </SafeAreaView>
   );

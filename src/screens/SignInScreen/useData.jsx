@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
-
 import {useQuery} from '@apollo/client';
-
 import {GET_TOKEN} from '@/query/user';
+import {useApolloClient} from '@apollo/client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const useData = ({onChangeScreen}) => {
   const [login, setLogin] = useState('');
@@ -13,17 +13,10 @@ export const useData = ({onChangeScreen}) => {
 
   const [viewOff, setViewOff] = useState(true);
 
-  // const {data, loading, error} = useQuery(GET_TOKEN () );
-
-  // console.log('data', data);
-  // console.log('loading', loading);
-  // console.log('error', error);
-
-  useEffect(() => {}, []);
+  const client = useApolloClient();
 
   const onChangeLogin = v => {
     setErrorInfo('');
-
     setLogin(v);
   };
 
@@ -31,10 +24,38 @@ export const useData = ({onChangeScreen}) => {
     setPassword(v);
     setErrorInfo('');
   };
-  const onSubmit = data => {
-    password && login
-      ? onChangeScreen('raffle')
-      : setErrorInfo('Обязательные поля не заполнили ');
+  const onSubmit = async data => {
+    if (password && login) {
+      try {
+        const result = await client.query({
+          query: GET_TOKEN,
+          variables: {
+            login: login.toLowerCase(),
+            password,
+          },
+        });
+        switch (result.data.createTokens.__typename) {
+          case 'ErrorWithFields':
+            setErrorInfo('Данные были введены неверно.');
+            break;
+          case 'TokenPair':
+            await AsyncStorage.setItem(
+              'TOKEN',
+              result.data.createTokens.accessToken,
+            );
+            setErrorInfo('');
+            onChangeScreen('raffle');
+            break;
+
+          default:
+            break;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setErrorInfo('Обязательные поля не заполнили ');
+    }
   };
 
   return {

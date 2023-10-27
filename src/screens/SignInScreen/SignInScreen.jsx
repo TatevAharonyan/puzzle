@@ -103,7 +103,7 @@ export const SignInScreen = ({onChangeScreen}) => {
           Войти через Вконтакте
         </Button>
         <Button onPress={() => {}} color="orange" leftIcon={<YandexIcon />}>
-          Войти через Вконтакте
+          Войти через Войти через Яндекс
         </Button>
 
         {/* registration */}

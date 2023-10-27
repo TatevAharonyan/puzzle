@@ -19,25 +19,32 @@ export const useStyles = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           paddingHorizontal: responsiveWidth(9),
+          width: '100%',
         },
-        iconWrapper: {
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddinnBottom: responsiveWidth(10),
+        imagesWrapper: {
+          height: responsiveWidth(100),
+          width: responsiveWidth(100),
+          borderRadius: responsiveWidth(50),
+          borderColor: pallete.background.default,
+          borderWidth: responsiveWidth(1),
+          marginRight: responsiveWidth(10),
         },
-        wrpp: {
-          width: responsiveWidth(24),
+        img: {
+          height: responsiveWidth(98),
+          width: responsiveWidth(98),
+          borderRadius: responsiveWidth(50),
         },
-        logoWrapper: {
-          alignItems: 'center',
-          marginTop: responsiveWidth(15),
-          marginBottom: responsiveWidth(20),
-        },
+        headerTitleWrapper: {},
+
         infoWrapper: {
           flexDirection: 'row',
+
           borderBottomWidth: responsiveWidth(0.2),
           borderBottomColor: pallete.background.default,
           paddingVertical: responsiveWidth(5),
+        },
+        infoWrapperColumn: {
+          width: '100%',
         },
       }),
     [pallete],
