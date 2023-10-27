@@ -21,7 +21,7 @@ import {
 } from '@/components';
 import {pallete} from '@/themes';
 
-export const RaffleScreen = ({onChangeScreen}) => {
+export const RaffleScreen = ({navigation}) => {
   const {styles} = useStyles();
 
   const {onSubmit, time, product} = useData();
@@ -93,7 +93,7 @@ export const RaffleScreen = ({onChangeScreen}) => {
           )}
         </View>
         <Button
-          onPress={() => onChangeScreen('profile')}
+          onPress={() => navigation.navigate('profile')}
           color="pink"
           margin={{bottom: 35}}>
           Участвовать

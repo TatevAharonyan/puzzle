@@ -1,5 +1,4 @@
-import {responsiveWidth} from '@/helpers';
-import {useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {StyleSheet} from 'react-native';
 import {pallete} from '@/themes';
 
@@ -9,11 +8,12 @@ export const useStyles = () => {
       StyleSheet.create({
         wrapper: {
           flex: 1,
+          backgroundColor: pallete.background.mangosteen,
           justifyContent: 'center',
           alignItems: 'center',
         },
       }),
-    [pallete],
+    [],
   );
 
   return {styles};

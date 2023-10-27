@@ -1,6 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
-import {SafeAreaView, ScrollView, View, StatusBar, Image} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  StatusBar,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 
 import {useStyles} from './useStyles';
 import {useData} from './useData';
@@ -14,14 +21,18 @@ import {
 import {pallete, fonts} from '@/themes';
 import {DAY_OF_WEEK} from '@/constant';
 
-export const ProfileScreen = ({onChangeScreen}) => {
+import {Context} from '@/context';
+
+export const ProfileScreen = ({navigation}) => {
   const {styles} = useStyles();
 
-  const {userInfo, dateOfBirth, onLogOut, correctData} = useData({
-    onChangeScreen,
+  const {handleLogout} = useContext(Context);
+
+  const {userInfo, dateOfBirth, correctData, isLoading} = useData({
+    navigation,
   });
 
-  if (!userInfo) {
+  if (isLoading) {
     return (
       <SafeAreaView style={styles.wrapper}>
         <StatusBar
@@ -37,6 +48,9 @@ export const ProfileScreen = ({onChangeScreen}) => {
             Данные пользователя
           </Text>
           <View style={[styles.iconWrapper, styles.wrpp]} />
+        </View>
+        <View style={styles.loading}>
+          <ActivityIndicator size="large" color={pallete.background.pink} />
         </View>
       </SafeAreaView>
     );
@@ -144,7 +158,10 @@ export const ProfileScreen = ({onChangeScreen}) => {
           </Text>
         </Text>
 
-        <Button onPress={onLogOut} color="pink" margin={{top: 20, bottom: 30}}>
+        <Button
+          onPress={handleLogout}
+          color="pink"
+          margin={{top: 20, bottom: 30}}>
           Выйти из аккаунта
         </Button>
       </ScrollView>

@@ -8,12 +8,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useApolloClient} from '@apollo/client';
 
-export const useData = ({onChangeScreen}) => {
+export const useData = ({navigation}) => {
   const client = useApolloClient();
 
-  const [userInfo, setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
 
   const [dateOfBirth, setDateOfBirth] = useState('');
+
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     AsyncStorage.getItem('TOKEN').then(token => {
@@ -31,6 +33,7 @@ export const useData = ({onChangeScreen}) => {
       },
     });
     setUserInfo(result.data.getMe);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -45,15 +48,5 @@ export const useData = ({onChangeScreen}) => {
     return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}`;
   };
 
-  const onLogOut = async () => {
-    try {
-      await AsyncStorage.removeItem('TOKEN');
-      onChangeScreen('signIn');
-    } catch (exception) {
-      console.log(exception);
-    }
-    // }
-  };
-
-  return {userInfo, dateOfBirth, onLogOut, correctData};
+  return {userInfo, dateOfBirth, correctData, isLoading};
 };

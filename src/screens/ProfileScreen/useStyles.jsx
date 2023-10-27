@@ -46,6 +46,11 @@ export const useStyles = () => {
         infoWrapperColumn: {
           width: '100%',
         },
+        loading: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
       }),
     [pallete],
   );

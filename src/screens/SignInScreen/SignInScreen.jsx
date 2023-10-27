@@ -22,7 +22,7 @@ import {
 } from '@/components';
 import {pallete} from '@/themes';
 
-export const SignInScreen = ({onChangeScreen}) => {
+export const SignInScreen = ({onLogin}) => {
   const {styles} = useStyles();
 
   const {
@@ -36,7 +36,7 @@ export const SignInScreen = ({onChangeScreen}) => {
     setViewOff,
     errorInfo,
     onSubmit,
-  } = useData({onChangeScreen});
+  } = useData({onLogin});
 
   return (
     <SafeAreaView style={styles.wrapper}>

@@ -4,10 +4,10 @@ import {GET_TOKEN} from '@/query/user';
 import {useApolloClient} from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const useData = ({onChangeScreen}) => {
-  const [login, setLogin] = useState('');
+export const useData = ({onLogin}) => {
+  const [login, setLogin] = useState('maxtsurka');
 
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('123123');
 
   const [errorInfo, setErrorInfo] = useState('');
 
@@ -44,7 +44,9 @@ export const useData = ({onChangeScreen}) => {
               result.data.createTokens.accessToken,
             );
             setErrorInfo('');
-            onChangeScreen('raffle');
+            // onChangeScreen('raffle');
+            // navigation.navigate('raffle');
+            onLogin();
             break;
 
           default:

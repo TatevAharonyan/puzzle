@@ -13,45 +13,37 @@ import {RaffleScreen, ProfileScreen} from '@/screens';
 
 const TabStack = createBottomTabNavigator();
 
-export const TabNavigator = () => {
-  const [currentRoute, setCurrentRoute] = useState('Raffle');
-
-  const {bottom} = useSafeAreaInsets();
-
-  const {t} = useTranslation();
+export const TabNavigator = ({onLogout}) => {
+  const [currentRoute, setCurrentRoute] = useState('raffle');
 
   return (
     <TabStack.Navigator
-      screenListeners={{
-        focus: e => {
-          setCurrentRoute(e.target?.split('-')[0]);
-        },
-      }}
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          height: responsiveWidth(65) + bottom / 1.5,
+          height: responsiveWidth(50),
           borderTopWidth: 0,
-          display: flex,
           elevation: 3,
           borderRadius: responsiveWidth(11),
         },
       }}>
       <TabStack.Screen
-        name={'Raffle'}
+        name={'raffle'}
         component={RaffleScreen}
         options={{
+          tabBarLabel: () => null,
           tabBarIcon: () => <HomeIcon />,
           tabBarButton: ({...props}) => (
-            <TabBarButton focused={currentRoute === 'Raffle'} {...props} />
+            <TabBarButton focused={currentRoute === 'raffle'} {...props} />
           ),
         }}
       />
       <TabStack.Screen
-        name={'Profile'}
-        component={ProfileScreen}
+        name={'gift'}
+        component={RaffleScreen}
         options={{
+          tabBarLabel: () => null,
           tabBarIcon: () => <GiftIcon />,
           tabBarButton: ({...props}) => (
             <TabBarButton focused={currentRoute === 'Profile'} {...props} />
@@ -60,9 +52,10 @@ export const TabNavigator = () => {
       />
 
       <TabStack.Screen
-        name={'Profil'}
-        component={ProfileScreen}
+        name={'lable'}
+        component={RaffleScreen}
         options={{
+          tabBarLabel: () => null,
           tabBarIcon: () => <LableIcon />,
           tabBarButton: ({...props}) => (
             <TabBarButton focused={currentRoute === 'Profile'} {...props} />
@@ -71,15 +64,15 @@ export const TabNavigator = () => {
       />
 
       <TabStack.Screen
-        name={'Profile'}
+        name="profile"
         component={ProfileScreen}
         options={{
+          tabBarLabel: () => null,
           tabBarIcon: () => <UserIcon />,
           tabBarButton: ({...props}) => (
-            <TabBarButton focused={currentRoute === 'Profile'} {...props} />
+            <TabBarButton focused={currentRoute === 'profile'} {...props} />
           ),
-        }}
-      />
+        }}></TabStack.Screen>
     </TabStack.Navigator>
   );
 };

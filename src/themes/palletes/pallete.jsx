@@ -16,6 +16,7 @@ const pallete = {
     pink: '#FF00B8',
     blue: '#0077FF',
     orange: '#FB3F1C',
+    transparent: 'transparent',
   },
   input: {
     background: '#F2F2F7',
