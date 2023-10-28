@@ -5,9 +5,9 @@ import {useApolloClient} from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const useData = ({onLogin}) => {
-  const [login, setLogin] = useState('maxtsurka');
+  const [login, setLogin] = useState('');
 
-  const [password, setPassword] = useState('123123');
+  const [password, setPassword] = useState('');
 
   const [errorInfo, setErrorInfo] = useState('');
 
@@ -15,18 +15,24 @@ export const useData = ({onLogin}) => {
 
   const client = useApolloClient();
 
+  // Updating login data.
   const onChangeLogin = v => {
     setErrorInfo('');
     setLogin(v);
   };
 
+  // Updating password data.
   const onChangePassword = v => {
     setPassword(v);
     setErrorInfo('');
   };
+
+  // Checking login details for the application.
   const onSubmit = async data => {
+    // Checking whether there is information.
     if (password && login) {
       try {
+        // Sending a request to the server.
         const result = await client.query({
           query: GET_TOKEN,
           variables: {
@@ -34,6 +40,7 @@ export const useData = ({onLogin}) => {
             password,
           },
         });
+        // Check response status.
         switch (result.data.createTokens.__typename) {
           case 'ErrorWithFields':
             setErrorInfo('Данные были введены неверно.');
@@ -44,18 +51,17 @@ export const useData = ({onLogin}) => {
               result.data.createTokens.accessToken,
             );
             setErrorInfo('');
-            // onChangeScreen('raffle');
-            // navigation.navigate('raffle');
             onLogin();
             break;
-
           default:
+            setErrorInfo('Данные были введены неверно.');
             break;
         }
       } catch (error) {
         console.log(error);
       }
     } else {
+      // If form data is empty.
       setErrorInfo('Обязательные поля не заполнили ');
     }
   };

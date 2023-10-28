@@ -23,14 +23,13 @@ import {DAY_OF_WEEK} from '@/constant';
 
 import {Context} from '@/context';
 
-export const ProfileScreen = ({navigation}) => {
+export const ProfileScreen = () => {
   const {styles} = useStyles();
 
+  // Getting the Logout function using context.
   const {handleLogout} = useContext(Context);
 
-  const {userInfo, dateOfBirth, correctData, isLoading} = useData({
-    navigation,
-  });
+  const {userInfo, dateOfBirth, correctData, isLoading} = useData();
 
   if (isLoading) {
     return (
@@ -71,7 +70,7 @@ export const ProfileScreen = ({navigation}) => {
         </Text>
         <View style={[styles.iconWrapper, styles.wrpp]} />
       </View>
-
+      {/* User personal data */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.imagesWrapper}>
@@ -128,6 +127,7 @@ export const ProfileScreen = ({navigation}) => {
         <Text size={15} color="white" margin={{top: 20}}>
           График рабочих дней
         </Text>
+        {/* Working hours by day of the week. */}
         {userInfo?.workingHours &&
           DAY_OF_WEEK.map(i => (
             <WorkingHoursCard
@@ -157,7 +157,7 @@ export const ProfileScreen = ({navigation}) => {
             {correctData(userInfo?.createdAt)}г.
           </Text>
         </Text>
-
+        {/* Logout */}
         <Button
           onPress={handleLogout}
           color="pink"

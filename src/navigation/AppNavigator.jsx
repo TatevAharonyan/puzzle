@@ -35,16 +35,21 @@ export const AppNavigator = () => {
     setLoading(false);
   }, []);
 
+  // Getting the token from memory, if any.
   const getToken = () => {
     AsyncStorage.getItem('TOKEN').then(token => {
       setToken(token);
     });
   };
 
+  // After login, update the token to change navigation.
+  // The function is passed to the component via props.
   const availableToken = useCallback(() => {
     getToken();
   }, []);
 
+  // Deleting user data after logging out of your account.
+  // Passed to the component via the context.
   const handleLogout = useCallback(() => {
     AsyncStorage.removeItem('TOKEN').then(() => {
       setToken('');

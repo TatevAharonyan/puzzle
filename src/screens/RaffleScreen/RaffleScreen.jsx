@@ -1,12 +1,6 @@
 import React, {useMemo} from 'react';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-  View,
-  StatusBar,
-} from 'react-native';
+import {SafeAreaView, ScrollView, View, StatusBar} from 'react-native';
 
 import {useStyles} from './useStyles';
 import {useData} from './useData';
@@ -24,7 +18,7 @@ import {pallete} from '@/themes';
 export const RaffleScreen = ({navigation}) => {
   const {styles} = useStyles();
 
-  const {onSubmit, time, product} = useData();
+  const {time, product} = useData();
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -54,6 +48,7 @@ export const RaffleScreen = ({navigation}) => {
             <InfoIcon />
           </View>
         </View>
+        {/*timer */}
         <View style={styles.timeWrapper}>
           <TimerCard
             time={time > 59 ? '01' : '00'}
@@ -67,7 +62,6 @@ export const RaffleScreen = ({navigation}) => {
             margin={{left: 4, right: 4}}>
             :
           </Text>
-
           <TimerCard
             time={
               time > 59 ? `0${time - 60}` : time > 10 ? `${time}` : `0${time}`
@@ -77,6 +71,7 @@ export const RaffleScreen = ({navigation}) => {
             id={`key + seconds`}
           />
         </View>
+
         <View style={styles.infoWrapper}>
           <Text align="center" weight={600} size={14} color="white">
             Разыгрываем сегодня
@@ -85,6 +80,7 @@ export const RaffleScreen = ({navigation}) => {
             <InfoIcon />
           </View>
         </View>
+        {/* Discounted products */}
         <View style={styles.productWrapper}>
           {product.map(i =>
             useMemo(() => {
@@ -92,10 +88,7 @@ export const RaffleScreen = ({navigation}) => {
             }, [i]),
           )}
         </View>
-        <Button
-          onPress={() => navigation.navigate('profile')}
-          color="pink"
-          margin={{bottom: 35}}>
+        <Button onPress={() => {}} color="pink" margin={{bottom: 35}}>
           Участвовать
         </Button>
       </ScrollView>

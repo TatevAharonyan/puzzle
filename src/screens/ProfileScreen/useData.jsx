@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useApolloClient} from '@apollo/client';
 
-export const useData = ({navigation}) => {
+export const useData = () => {
   const client = useApolloClient();
 
   const [userInfo, setUserInfo] = useState({});
@@ -23,6 +23,7 @@ export const useData = ({navigation}) => {
     });
   }, []);
 
+  // Request to obtain the user's personal data.
   const info = async token => {
     const result = await client.query({
       query: GET_ME,
@@ -36,12 +37,14 @@ export const useData = ({navigation}) => {
     setLoading(false);
   };
 
+  // Formatting date birth
   useEffect(() => {
     if (!!userInfo?.dateOfBirth) {
       setDateOfBirth(correctData(userInfo?.dateOfBirth));
     }
   }, [userInfo]);
 
+  // Changing date data in a specific format
   const correctData = date => {
     const d = new Date(userInfo?.dateOfBirth);
 
